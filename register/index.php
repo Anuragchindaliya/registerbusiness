@@ -56,7 +56,7 @@ include_once "../conn.php";
         </div> -->
     </div>
     <div class="container mt-2">
-        <h2 class="text-center"><a href="index.php">Register Business</a></h2>
+        <h2 class="text-center"><a href="../index.php">Register Business</a></h2>
 
 
         <div class="row">
@@ -80,7 +80,7 @@ include_once "../conn.php";
                 }
 
                 ?>
-                <form action="process.php" method="post">
+                <form action="process.php" method="post" enctype="multipart/form-data">
 
                     <!--Text input -->
                     <div class="form-outline mb-1">
@@ -127,7 +127,7 @@ include_once "../conn.php";
                     <!--Text input -->
                     <div class="form-outline">
                         <label class="form-label" for="form6Example1">Firm Logo<sup class="text-danger">*</sup></label>
-                        <input type="file" id="form6Example1" class="form-control" name="link" value="<?= isset($data['link']) ? $data['link']:''; ?>" accept="image/*" required />
+                        <input type="file" id="form6Example1" class="form-control" name="img" value="<?= isset($data['link']) ? $data['img']:''; ?>" accept="image/*" required />
 
                         <!--data id -->
                         <input type="hidden" name="dataid" value="<?= isset($data['id']) ? $data['id']:''; ?>">
