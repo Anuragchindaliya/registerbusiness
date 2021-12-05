@@ -12,8 +12,10 @@ if (isset($_POST['register'])) {
     //  $status = $_POST['status'];
     $name = $_POST['userName'];
     $location_link = $_POST['location_link'];
+    $email = $_POST['email'];
+    $slug = $_POST['slug'];
 
-    echo $sql = "INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,img,name,location_link) VALUES('$firm_name','$whatsapp','$address','$pincode','$number','$subhead','$remark','$img','$name','$location_link')";
+    echo $sql = "INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,img,name,location_link,email,slug) VALUES('$firm_name','$whatsapp','$address','$pincode','$number','$subhead','$remark','$img','$name','$location_link','$email','$slug')";
     if (mysqli_query($conn, $sql)) {
         //    echo "data is inserted";
 
@@ -88,4 +90,3 @@ if (isset($_POST['register'])) {
     //     $stmnt->close();
     //     $conn->close();
 }
-?>

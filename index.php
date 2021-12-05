@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
 </head>
 
@@ -131,15 +131,29 @@
                             <div class="card h-100 shadow-sm"> 
                             <img src="./uploads/images/${el.img}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <div class="clearfix mb-3"> 
-                                        <span class="float-start badge rounded-pill bg-primary">${el.firm_name}</span> 
-                                        <span class="float-end price-hp">${el.whatsapp}</span> </div>
-                                    <h5 class="card-title">
-                                        Tagline : ${el.subhead}
-                                    </h5>
-                                    <p>Remark : ${el.remark}</p>
+                                    <div class="clearfix"> 
+                                        <h4 class="float-start ">${el.firm_name.toUpperCase()}</h4> 
+                                        <span class="float-end price-hp"></span> 
+                                    </div>
+                                    <i class="card-title">
+                                     ${el.subhead}
+                                    </i>
+                                    <div class="mt-3 text-center">
+                                        <a href="tel:${el.number}" class="m-2 border p-2 rounded-circle border-primary">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </a>
+                                        <a href="${el.location_link}" class=" m-2 border p-2 rounded-circle border-primary">
+                                            <i class="fas fa-directions"></i>
+                                        </a>
+                                        <a href="https://wa.me/91${el.whatsapp}" class="m-2 border p-2 rounded-circle border-primary">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+                                        <a href="whatsapp://send?text=listmeon.com my link ...///" class="m-2 border p-2 rounded-circle border-primary">
+                                             <i class="fas fa-share-alt"></i>
+                                        </a>
+                                    </div>
                                     <div class="text-center my-4">
-                                        <a href="#" class="btn btn-warning">Check offer</a>
+                                        <a href="./page/${el.slug}" class="btn btn-warning">Check offer</a>
                                     </div>
                                 </div>
                             </div>

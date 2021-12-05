@@ -2,9 +2,17 @@
 
 // require("database.php");
 $con = mysqli_connect("localhost", "root", "", "vgi") or die("connection failed");
-$alias = mysqli_real_escape_string($con, $_GET['alias']);
-$res = mysqli_query($con, "SELECT * FROM listmeon WHERE firm_name = '$alias'");
-$data = mysqli_fetch_array($res);
+if (isset($_GET['alias'])) {
+  $alias = mysqli_real_escape_string($con, $_GET['alias']);
+  $res = mysqli_query($con, "SELECT * FROM listmeon WHERE slug = '$alias'");
+  if (mysqli_num_rows($res) < 1) {
+    header("location: ../index.php");
+  }
+  $data = mysqli_fetch_array($res);
+} else {
+  header("location: ../index.php");
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -54,6 +62,16 @@ $data = mysqli_fetch_array($res);
 
     }
   </style>
+  <style>
+    .brand-logo {
+      background-color: #fff;
+      border-radius: 50%;
+      padding: 10px;
+      object-fit: contain;
+      border: 3px solid #0d6efd;
+      box-shadow: 5px 5px 5px rgb(0 0 0 / 50%);
+    }
+  </style>
 </head>
 
 <body>
@@ -98,9 +116,9 @@ $data = mysqli_fetch_array($res);
   </nav>
 
   <!-- second -->
-  <section class="hero">
-    <div class="px-4 py-5 my-5 text-center">
-      <img class="d-block mx-auto mb-4" src="../<?= $data['link']; ?>" alt="" width="100" height="100">
+  <section class="hero" style="background-image: url('../uploads/images/first.jpg') ;">
+    <div class="px-4 py-5 my-5 text-center text-white" style="background-color: rgba(0,0,0,.5);">
+      <img class="brand-logo d-block mx-auto mb-4" src="../uploads/images/<?= $data['img']; ?>" alt="" width="100" height="100">
       <h1 class="display-5 fw-bold"><?= $data['firm_name']; ?></h1>
       <div class="col-lg-6 mx-auto">
         <p class="lead mb-4"><?= $data['subhead']; ?> <br /><?= $data['remark']; ?></p>
@@ -128,10 +146,10 @@ $data = mysqli_fetch_array($res);
               <title>Placeholder</title>
               <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
             </svg> -->
-                <img src="../<?= $row['img_link']; ?>" />
+                <img src="../uploads/images/<?= $data['img']; ?>" />
 
                 <div class="card-body">
-                  <p class="card-text text-center"><?=$row['content']?></p>
+                  <p class="card-text text-center"><?= $row['content'] ?></p>
                   <!-- <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>

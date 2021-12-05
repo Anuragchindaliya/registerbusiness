@@ -3,7 +3,7 @@ include_once "../conn.php";
 header('Content-Type: application/json; charset=utf-8');
 if (isset($_POST['query'])) {
     $q = '%' . $_POST['query'] . '%';
-    
+
     $columns = ["firm_name", "whatsapp", "pincode"];
 
     $sqlColumns = "`";
