@@ -9,6 +9,11 @@ const about = () => {
         <meta name="Keywords" content="web developement, programming" />
       </Head>
       <h1>welcome to business listing website</h1>
+      <h1>welcome to business listing website</h1>
+      <h1>welcome to business listing website</h1>
+      <h1>welcome to business listing website</h1>
+      <h1>welcome to business listing website</h1>
+      <h1>welcome to business listing website</h1>
     </>
   );
 };
