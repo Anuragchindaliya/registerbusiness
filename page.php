@@ -146,7 +146,7 @@ if (isset($_GET['alias'])) {
               <title>Placeholder</title>
               <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
             </svg> -->
-                <img src="../uploads/images/<?= $data['img']; ?>" />
+                <img src="../uploads/images/<?= $row['img_link']; ?>" />
 
                 <div class="card-body">
                   <p class="card-text text-center"><?= $row['content'] ?></p>

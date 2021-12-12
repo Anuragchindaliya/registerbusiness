@@ -1,6 +1,9 @@
 <?php
 include "../conn.php";
+include_once "./uploadImage.php";
 if (isset($_POST['register'])) {
+    // echo print_r($_FILES['firm_logo']);
+
     $firm_name = $_POST['firm_name']; //
     $whatsapp = $_POST['whatsapp'];
     $address = $_POST['address']; //
@@ -8,85 +11,37 @@ if (isset($_POST['register'])) {
     $number = $_POST['number'];
     $subhead = $_POST['subhead']; //
     $remark = $_POST['remark'];
-    $img = $_FILES['img']['name'];
+    // $img = $_FILES['img']['name'];
+    $slug = $_POST['slug'];
+
+    // $otherImg = $_FILES['otherImg']['name'];
     //  $status = $_POST['status'];
     $name = $_POST['userName'];
     $location_link = $_POST['location_link'];
     $email = $_POST['email'];
-    $slug = $_POST['slug'];
+    if ($firm_logo = uploadImage($_FILES['firm_logo'], $slug, "logo")) {
 
-    echo $sql = "INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,img,name,location_link,email,slug) VALUES('$firm_name','$whatsapp','$address','$pincode','$number','$subhead','$remark','$img','$name','$location_link','$email','$slug')";
-    if (mysqli_query($conn, $sql)) {
-        //    echo "data is inserted";
+        echo $sql = "INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,img,name,location_link,email,slug) VALUES('$firm_name','$whatsapp','$address','$pincode','$number','$subhead','$remark','$firm_logo','$name','$location_link','$email','$slug')";
+        if ($res = mysqli_query($conn, $sql)) {
 
-
-        $target_dir = "../uploads/images/";
-        $target_file = $target_dir . basename($_FILES["img"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        if (isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["img"]["tmp_name"]);
-            if ($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
+            if ($otherImgs = uploadImage($_FILES['otherImg'], $slug, "gallery")) {
+                $userId = mysqli_insert_id($conn);
+                foreach ($otherImgs as $currentImg) {
+                    echo $imageUploadSql = "INSERT INTO `listmeon_images`(`uid`, `img_link`) VALUES ('$userId','$currentImg')";
+                    if (mysqli_query($conn, $imageUploadSql)) {
+                        header("location: ../index.php?upload=success");
+                    } else {
+                        echo "Error in inserting gallery images";
+                    }
+                }
             } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
+                echo "error in uploading gallery images";
             }
-        }
-
-        // // Check if file already exists
-        // if (file_exists($target_file)) {
-        //     echo "Sorry, file already exists.";
-        //     $uploadOk = 0;
-        // }
-
-        // Check file size
-        if ($_FILES["img"]["size"] > 500000) {
-            echo "Sorry, your file is too large.";
-            $uploadOk = 0;
-        }
-
-        // Allow certain file formats
-        if (
-            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif"
-        ) {
-            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            echo "Sorry, your file was not uploaded.";
-            die();
-            // if everything is ok, try to upload file
         } else {
-            if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
-                echo "The file " . htmlspecialchars(basename($_FILES["img"]["name"])) . " has been uploaded.";
-                header("location: ../index.php?upload=success");
-            } else {
-                echo "Sorry, there was an error uploading your file.";
-            }
+            echo "not inserted";
         }
-
-        // header("Location: ./index.php?msg=Data is inserted");
     } else {
-        echo "not inserted";
+        echo $errorMsg =  "Sorry, there was an error uploading your file.";
+        header("location:../index.php?msg=$errorMsg");
     }
-
-
-    //     $stmnt = $conn->prepare("INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,link,status,name,location_link) VALUES(?,?,?,?,?,?,?,?,?,?,?");
-    //     if(false==$stmnt){
-    //         echo print_r($conn->query());
-    //         die($conn->error);
-    //     }
-    //     $stmnt->bind_param("sssissssiss",$firm_name,$whatsapp,$address,$pincode,$number,$subhead,$remark,$link,$status,$name,$location_link);
-    //     $stmnt->execute();
-    //     echo "New records created successfully";
-
-    //     $stmnt->close();
-    //     $conn->close();
 }

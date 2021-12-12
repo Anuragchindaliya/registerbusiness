@@ -132,7 +132,7 @@
                             <img src="./uploads/images/${el.img}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <div class="clearfix"> 
-                                        <h4 class="float-start ">${el.firm_name.toUpperCase()}</h4> 
+                                        <h4 class="float-start card__headingElipses">${el.firm_name.toUpperCase()}</h4> 
                                         <span class="float-end price-hp"></span> 
                                     </div>
                                     <i class="card-title">

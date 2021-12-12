@@ -269,3 +269,10 @@ footer {
   /* width: 110px; */
   background: blue;
 }
+.card__headingElipses {
+  display: -webkit-box;
+  width:100%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
