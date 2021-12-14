@@ -4,11 +4,13 @@
 $con = mysqli_connect("localhost", "root", "", "vgi") or die("connection failed");
 if (isset($_GET['alias'])) {
   $alias = mysqli_real_escape_string($con, $_GET['alias']);
-  $res = mysqli_query($con, "SELECT * FROM listmeon WHERE slug = '$alias'");
+  // SELECT *,(SELECT CONCAT("[", GROUP_CONCAT(listmeon_images.img_link), "]") AS categories From listmeon_images WHERE uid = listmeon.id)AS gallery FROM listmeon WHERE slug = 'web2rise';
+  $res = mysqli_query($con, "SELECT *,(SELECT GROUP_CONCAT(listmeon_images.img_link) AS categories From listmeon_images WHERE uid = listmeon.id)AS gallery FROM listmeon WHERE slug = '$alias'");
   if (mysqli_num_rows($res) < 1) {
     header("location: ../index.php");
   }
   $data = mysqli_fetch_array($res);
+  $galleryImages = explode(",", $data['gallery']);
 } else {
   header("location: ../index.php");
 }
@@ -71,6 +73,11 @@ if (isset($_GET['alias'])) {
       border: 3px solid #0d6efd;
       box-shadow: 5px 5px 5px rgb(0 0 0 / 50%);
     }
+
+    .galleryimg {
+      height: 350px;
+      object-fit: cover;
+    }
   </style>
 </head>
 
@@ -116,7 +123,7 @@ if (isset($_GET['alias'])) {
   </nav>
 
   <!-- second -->
-  <section class="hero" style="background-image: url('../uploads/images/first.jpg') ;">
+  <section class="hero" style="background-image: url('../uploads/images/<?= $galleryImages[0] ?>') ;">
     <div class="px-4 py-5 my-5 text-center text-white" style="background-color: rgba(0,0,0,.5);">
       <img class="brand-logo d-block mx-auto mb-4" src="../uploads/images/<?= $data['img']; ?>" alt="" width="100" height="100">
       <h1 class="display-5 fw-bold"><?= $data['firm_name']; ?></h1>
@@ -136,49 +143,48 @@ if (isset($_GET['alias'])) {
       <h1 class="display-4 fw-normal text-center mb-5">Gallery</h1>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <?php
-        $res = mysqli_query($con, "SELECT * FROM listmeon_images WHERE uid = '$data[id]'");
-        if (mysqli_num_rows($res) > 0) {
-          while ($row = mysqli_fetch_assoc($res)) {
+
+        foreach ($galleryImages as $key => $value) {
         ?>
-            <div class="col">
-              <div class="card shadow-sm">
-                <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <div class="col">
+            <div class="card shadow-sm">
+              <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
               <title>Placeholder</title>
               <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
             </svg> -->
-                <img src="../uploads/images/<?= $row['img_link']; ?>" />
+              <img class="galleryimg" src="../uploads/images/<?= $value ?>" />
 
-                <div class="card-body">
-                  <p class="card-text text-center"><?= $row['content'] ?></p>
-                  <!-- <div class="d-flex justify-content-between align-items-center">
+              <!-- <div class="card-body">
+                <p class="card-text text-center"><?= $row['content'] ?></p>
+               <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                     </div>
                     <small class="text-muted">9 mins</small>
-                  </div> -->
-                </div>
-              </div>
+                  </div> 
+              </div> -->
             </div>
-
+          </div>
         <?php
-          }
         }
 
-
-
         ?>
-
       </div>
     </div>
   </div>
+
+
 
   <!-- map -->
   <div class="container-fluid py-5">
     <h1 class="text-center mb-2">Contact Address</h1>
     <!-- <hr> -->
     <div class="row">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.094687399321!2d77.27502441482453!3d28.355986782527694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdf67263924fb%3A0x152b7f9a003ab111!2sWeb2Rise%20-%20Best%20Digital%20Marketing%20Company%20in%20Faridabad!5e0!3m2!1sen!2sin!4v1634826390032!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      <?php
+      echo '<iframe frameborder="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $data['location_link'])) . '&z=14&output=embed" width="600" height="450" ></iframe>';
+      ?>
+      <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3511.094687399321!2d77.27502441482453!3d28.355986782527694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cdf67263924fb%3A0x152b7f9a003ab111!2sskele!5e0!3m2!1sen!2sin!4v1634826390032!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe> -->
       <!-- <iframe src="https://www.google.com/maps/dir/28.3639808,77.2767744/web2rise/@28.3645571,77.276904,17z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x390cdea61b83d673:0x8ac0da8104bf48dc!2m2!1d77.2817291!2d28.365944" width="100%" height="320" frameborder="0" style="border:0" allowfullscreen></iframe> -->
     </div>
     <!-- <div class="row text-center">
