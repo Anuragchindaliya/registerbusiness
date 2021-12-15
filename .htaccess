@@ -1,5 +1,5 @@
 RewriteEngine On
 
- RewriteRule ^page/([^/\.]+)?$ page.php?alias=$1
+ RewriteRule ^p/([^/\.]+)?$ p.php?alias=$1
 
-# RewriteRule ^page.php/([a-zA-Z0-9]+)$ page.php?alias=$1 [QSA,L] #[A-Z0-9]
+# RewriteRule ^p.php/([a-zA-Z0-9]+)$ p.php?alias=$1 [QSA,L] #[A-Z0-9]

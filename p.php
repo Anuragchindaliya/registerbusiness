@@ -1,11 +1,11 @@
 <?php
 
-// require("database.php");
-$con = mysqli_connect("localhost", "root", "", "vgi") or die("connection failed");
+require("./conn.php");
+// $con = mysqli_connect("localhost", "root", "", "vgi") or die("connection failed");
 if (isset($_GET['alias'])) {
-  $alias = mysqli_real_escape_string($con, $_GET['alias']);
+  $alias = mysqli_real_escape_string($conn, $_GET['alias']);
   // SELECT *,(SELECT CONCAT("[", GROUP_CONCAT(listmeon_images.img_link), "]") AS categories From listmeon_images WHERE uid = listmeon.id)AS gallery FROM listmeon WHERE slug = 'web2rise';
-  $res = mysqli_query($con, "SELECT *,(SELECT GROUP_CONCAT(listmeon_images.img_link) AS categories From listmeon_images WHERE uid = listmeon.id)AS gallery FROM listmeon WHERE slug = '$alias'");
+  $res = mysqli_query($conn, "SELECT *,(SELECT GROUP_CONCAT(listmeon_images.img_link) AS categories From listmeon_images WHERE uid = listmeon.id)AS gallery FROM listmeon WHERE slug = '$alias'");
   if (mysqli_num_rows($res) < 1) {
     header("location: ../index.php");
   }
@@ -23,6 +23,7 @@ if (isset($_GET['alias'])) {
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="../uploads/images/<?= $data['img']; ?>">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -78,6 +79,10 @@ if (isset($_GET['alias'])) {
       height: 350px;
       object-fit: cover;
     }
+    .hero{
+        background-size: cover;
+        background-position: center;
+    }
   </style>
 </head>
 
@@ -130,7 +135,7 @@ if (isset($_GET['alias'])) {
       <div class="col-lg-6 mx-auto">
         <p class="lead mb-4"><?= $data['subhead']; ?> <br /><?= $data['remark']; ?></p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Get Quote</button>
+          <a href="tel:+91-<?= $data['number'];?>" type="button" class="btn btn-primary btn-lg px-4 gap-3">Call Now</a>
           <!-- <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button> -->
         </div>
       </div>
@@ -213,10 +218,11 @@ if (isset($_GET['alias'])) {
   <footer class="container-fluid bg-dark text-white fixed-bottom">
     <div class="row">
       <div class="col">
-        <a href="https://www.google.com/maps/place/Web2Rise+-+Best+Digital+Marketing+Company+in+Faridabad,+Chacha+Chowk,+Baba+Mandi,+near+Dayal+Hospital,+NIT,+Faridabad,+Haryana+121005/@28.355987,77.277213,16z/data=!4m2!3m1!1s0x390cdf67263924fb:0x152b7f9a003ab111?hl=en&gl=IN" target="_blank" class="nav-link text-white text-center ">
+        <?php
+      echo '<a href="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $data['location_link'])) . '&z=14" width="600" height="450" target="_blank" class="nav-link text-white text-center ">
           <div><i class="fa fa-home"></i></div>
           Location
-        </a>
+        </a>';?>
       </div>
       <div class="col">
         <a href="tel:+91-<?= $data['number']; ?>" target="_blank" class="nav-link text-white text-center ">

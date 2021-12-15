@@ -153,7 +153,7 @@
                                         </a>
                                     </div>
                                     <div class="text-center my-4">
-                                        <a href="./page/${el.slug}" class="btn btn-warning">Check offer</a>
+                                        <a href="./p/${el.slug}" class="btn btn-warning">Check offer</a>
                                     </div>
                                 </div>
                             </div>
