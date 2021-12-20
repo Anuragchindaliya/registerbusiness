@@ -30,6 +30,18 @@ if (isset($_GET['alias'])) {
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
   <title><?= $data['firm_name'] ?> | <?= $data['subhead'] ?> </title>
+  <meta charset="UTF-8">
+  <meta name="description" content="<?= $data['subhead'] ?>">
+  <meta name="keywords" content="web2rise, listmeon, <?= $data['firm_name'] . ", ", $data['subhead'] . ", " . $data['whatsapp'] ?>">
+  <meta name="author" content="listmeon - <?= $data['name'] ?>">
+
+  <meta property="og:title" content="List your business here">
+  <meta property="og:site_name" content="listmeon.com">
+  <meta property="og:url" content="https://test.lismeon.com/p/<?= $data['slug'] ?>">
+  <meta property="og:description" content="<?= $data['subhead'] ?>">
+  <meta property="og:type" content="Listing website">
+  <meta property="og:image" content="<?= $data['img'] ?>">
+
   <style>
     hr {
       border-top: 1px solid #000;
@@ -79,16 +91,17 @@ if (isset($_GET['alias'])) {
       height: 350px;
       object-fit: cover;
     }
-    .hero{
-        background-size: cover;
-        background-position: center;
+
+    .hero {
+      background-size: cover;
+      background-position: center;
     }
   </style>
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><?= $data['firm_name']; ?></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,11 +144,11 @@ if (isset($_GET['alias'])) {
   <section class="hero" style="background-image: url('../uploads/images/<?= $galleryImages[0] ?>') ;">
     <div class="px-4 py-5 my-5 text-center text-white" style="background-color: rgba(0,0,0,.5);">
       <img class="brand-logo d-block mx-auto mb-4" src="../uploads/images/<?= $data['img']; ?>" alt="" width="100" height="100">
-      <h1 class="display-5 fw-bold"><?= $data['firm_name']; ?></h1>
+      <h1 class="display-5 fw-bold"><?= ucfirst($data['firm_name']); ?></h1>
       <div class="col-lg-6 mx-auto">
         <p class="lead mb-4"><?= $data['subhead']; ?> <br /><?= $data['remark']; ?></p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a href="tel:+91-<?= $data['number'];?>" type="button" class="btn btn-primary btn-lg px-4 gap-3">Call Now</a>
+          <a href="tel:+91-<?= $data['number']; ?>" type="button" class="btn btn-primary btn-lg px-4 gap-3">Call Now</a>
           <!-- <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button> -->
         </div>
       </div>
@@ -219,10 +232,10 @@ if (isset($_GET['alias'])) {
     <div class="row">
       <div class="col">
         <?php
-      echo '<a href="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $data['location_link'])) . '&z=14" width="600" height="450" target="_blank" class="nav-link text-white text-center ">
+        echo '<a href="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $data['location_link'])) . '&z=14" width="600" height="450" target="_blank" class="nav-link text-white text-center ">
           <div><i class="fa fa-home"></i></div>
           Location
-        </a>';?>
+        </a>'; ?>
       </div>
       <div class="col">
         <a href="tel:+91-<?= $data['number']; ?>" target="_blank" class="nav-link text-white text-center ">

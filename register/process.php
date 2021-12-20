@@ -22,8 +22,8 @@ if (isset($_POST['register'])) {
     if ($firm_logo = uploadImage($_FILES['firm_logo'], $slug, "logo")) {
 
         echo $sql = "INSERT INTO listmeon (firm_name,whatsapp,address,pincode,number,subhead,remark,img,name,location_link,email,slug) VALUES('$firm_name','$whatsapp','$address','$pincode','$number','$subhead','$remark','$firm_logo','$name','$location_link','$email','$slug')";
+        die();
         if ($res = mysqli_query($conn, $sql)) {
-
             if ($otherImgs = uploadImage($_FILES['otherImg'], $slug, "gallery")) {
                 $userId = mysqli_insert_id($conn);
                 foreach ($otherImgs as $currentImg) {

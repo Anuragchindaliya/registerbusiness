@@ -271,8 +271,14 @@ footer {
 }
 .card__headingElipses {
   display: -webkit-box;
-  width:100%;
+  width: 100%;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.notificationMsg {
+  z-index: 99;
+  position: fixed;
+  top: 30px;
+  right: 10px;
 }

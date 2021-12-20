@@ -20,13 +20,13 @@ function createSlug() {
       .then((res) => res.json())
       .then((response) => {
         if (response.status) {
-          yourSlug.innerHTML = `<div class="alert alert-danger py-0" role="alert">
+          yourSlug.innerHTML = `<div class="text-danger py-0" role="alert">
                             Already taken <u>${newSlug}</u>
                         </div>`;
           register_btn.setAttribute("disabled", true);
         } else {
-          yourSlug.innerHTML = `<div class="alert alert-success py-0" role="alert">
-                            ${newSlug}
+          yourSlug.innerHTML = `<div class="text-success py-0" role="alert">
+                            Available ${newSlug}
                         </div>`;
           generated_slug.setAttribute("value", newSlug);
           register_btn.removeAttribute("disabled");
@@ -36,7 +36,7 @@ function createSlug() {
         console.warn(errorMsg);
       });
 
-    yourSlug.innerHTML = `<div class="alert alert-success py-0" role="alert">
+    yourSlug.innerHTML = `<div class="text-success py-0" role="alert">
                             ${newSlug}
                         </div>`;
   } else {

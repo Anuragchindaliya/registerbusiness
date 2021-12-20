@@ -12,7 +12,7 @@ if (isset($_POST['check_code'])) {
 ?>
 <style>
     .veri_form {
-        min-height: 85vh;
+        min-height: 50vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -21,13 +21,14 @@ if (isset($_POST['check_code'])) {
 </style>
 
 <div class="container mt-5">
-    <h2 class="text-center"><a href="../index.php">Register Business code</a></h2>
+    <h1 class="text-center">List Me On .com</h1>
+    <h4 class="text-center"><a href="../index.php">Register Your Business</a></h4>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <form class="veri_form" action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
                 <!--Text input -->
-                <div class="form-outline mb-1 w-100">
+                <div class="form-outline mb-3 w-100">
                     <label class="form-label" for="verification_code">Your verification code<sup class="text-danger">*</sup> </label>
                     <input type="text" id="verification_code" class="form-control" name="verification_code" required />
                     <div id="yourSlug"></div>

@@ -52,6 +52,10 @@ include_once "./header.php" ?>
     .previewImageItem {
         position: relative;
     }
+
+    #yourSlug {
+        display: inline-block;
+    }
 </style>
 <div class="container mt-2">
     <h2 class="text-center"><a href="../index.php">Register Business</a></h2>
@@ -80,15 +84,17 @@ include_once "./header.php" ?>
 
                 <!--Text input -->
                 <div class="form-outline mb-1">
-                    <label class="form-label" for="firm_name">Firm Name<sup class="text-danger">*</sup> </label>
+                    <label class="form-label" for="firm_name">Firm Name<sup class="text-danger">*</sup>
+                        <div id="yourSlug"></div>
+                    </label>
                     <input type="text" id="firm_name" class="form-control" onblur="createSlug()" name="firm_name" value="<?= isset($data['firm_name']) ? $data['firm_name'] : ''; ?>" required />
-                    <div id="yourSlug"></div>
+
                     <input type="hidden" id="generated_slug" name="slug">
                 </div>
                 <!--Text input -->
                 <div class="form-outline mb-1">
-                    <label class="form-label" for="subhead">Tagline<sup class="text-danger">*</sup> </label>
-                    <input type="text" id="subhead" class="form-control" name="subhead" value="<?= isset($data['subhead']) ? $data['subhead'] : ''; ?>" required />
+                    <label class="form-label" for="subhead">Tagline </label>
+                    <input type="text" id="subhead" class="form-control" name="subhead" value="<?= isset($data['subhead']) ? $data['subhead'] : ''; ?>" />
                 </div>
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="row mb-1">
@@ -118,9 +124,9 @@ include_once "./header.php" ?>
 
                 <!--Text input -->
                 <div class="form-outline">
-                    <label class="form-label" for="form6Example1">Firm Logo<sup class="text-danger">*</sup>
-                    </label><small>logo should be under 1MB</small>
-                    <input type="file" id="form6Example1" class="form-control" name="firm_logo" value="<?= isset($data['link']) ? $data['img'] : ''; ?>" accept="image/*" required />
+                    <label class="form-label" for="form6Example1">Firm Logo
+                    </label><small> should be under 1MB</small>
+                    <input type="file" id="form6Example1" class="form-control" name="firm_logo" value="<?= isset($data['img']) ? $data['img'] : ''; ?>" accept="image/*" />
 
                 </div>
                 <!--Text input -->
@@ -149,8 +155,8 @@ include_once "./header.php" ?>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                            <label class="form-label" for="email">Email<sup class="text-danger">*</sup></label>
-                            <input type="email" id="email" class="form-control" name="email" value="<?= isset($data['email']) ? $data['email'] : ''; ?>" required />
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" class="form-control" name="email" value="<?= isset($data['email']) ? $data['email'] : ''; ?>" />
                         </div>
                     </div>
 
@@ -170,7 +176,7 @@ include_once "./header.php" ?>
                     </div>
                     <div class="col">
                         <div class="form-outline">
-                            <label class="form-label" for="form6Example2">Location Link<sup class="text-danger">*</sup></label>
+                            <label class="form-label" for="form6Example2">Location Name<sup class="text-danger">*</sup></label>
                             <input type="text" id="form6Example2" class="form-control" name="location_link" value="<?= isset($data['location_link']) ? $data['location_link'] : ''; ?>" required />
                         </div>
                     </div>
@@ -210,92 +216,5 @@ include_once "./header.php" ?>
         </div>
     </div>
 </div>
-<script>
-    function imageData(e) {
-        register_btn = document.querySelector("#register_btn");
-        const imageLength = e.target.files.length;
-
-        // count files length here -------------
-        if (imageLength === 0 || imageLength < 3 || imageLength > 10) {
-            alert("Please Upload image in between 3 and 10");
-            register_btn.setAttribute("disabled", "true");
-            clearInputImages();
-            return;
-        } else {
-            checkSizeMakePreview(e.target.files)
-        }
-    }
-    // return true if extension is allowed
-    function checkExtension(fileName) {
-        const allowedExtensions = ["jpg", "png", "jpeg", "gif"];
-        const extension = fileName.slice(fileName.lastIndexOf(".") + 1).toLowerCase();
-        return allowedExtensions.includes(extension);
-    }
-
-    function checkSizeMakePreview(files) {
-        //preview image container
-        const displayImages = document.getElementById("displayImages");
-        register_btn = document.querySelector("#register_btn");
-        let allImagesHtml = "";
-
-
-        for (let [key, file] of Object.entries(files)) {
-            // check size and extension here
-            if (file.size > 1000000) {
-                alert("Please select Image under 1mb " + file.name + " is bigger than 1mb");
-                console.log("Image size is more than 1 mb")
-                clearInputImages()
-                break
-            } else if (!checkExtension(file.name)) {
-                alert(file.name + "'s extension is not allowed");
-                clearInputImages()
-                break
-            } else {
-                var currentImgSrc = URL.createObjectURL(file);
-                allImagesHtml += `<div class="previewImageItem" title="${file.name}">
-                                <img class="imagePreview" src='${currentImgSrc}' width="50px" />
-                </div>`;
-                displayImages.innerHTML = allImagesHtml;
-                register_btn.removeAttribute("disabled");
-                currentImgSrc.onload = function() {
-                    URL.revokeObjectURL(currentImgSrc);
-                }
-            }
-        }
-    }
-
-    function clearInputImages() {
-        document.getElementById("otherImg").value = "";
-        document.getElementById("displayImages").innerHTML = "";
-    }
-
-
-    function removePreviewImage(imageIndex) {
-        debugger;
-        const displayImages = document.getElementById("otherImg");
-        const allFiles = Array.from(displayImages.files);
-        const tempFiles = new DataTransfer();
-        for (file of displayImages.files) {
-            let currentFile = new File(["content"], file.name)
-            tempFiles.items.add(currentFile);
-        }
-        console.log("temporary files ", tempFiles)
-        displayImages.files = tempFiles;
-    }
-
-    function checkSize(e) {
-        const displayImages = document.getElementById("displayImages");
-        console.log(displayImages);
-        // 1024*1024*5 = 5242880
-        if (e.target.files[0].size < (5242880)) {
-            let imageHtml = "";
-            console.log("eligible", e.target.files[0].size);
-            var currentImgSrc = URL.createObjectURL(event.target.files[0]);
-            imageHtml += `<img class="imagePreview" src='${currentImgSrc}' width="50px"  />`;
-            displayImages.innerHTML = imageHtml;
-        } else {
-            console.log("not eligible", e.target.files[0].size);
-        }
-    }
-</script>
+<script src="formValidation.js"> </script>
 <?php include_once "./footer.php" ?>
